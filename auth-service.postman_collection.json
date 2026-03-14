@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"username\": \"vijay\",\n  \"email\": \"vijay@test.com\",\n  \"password\": \"password123\"\n}"
+					"raw": "{\n  \"username\": \"frontend_user\",\n  \"email\": \"frontend@example.com\",\n  \"password\": \"password123\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8081/api/auth/register",
@@ -38,6 +38,18 @@
 		},
 		{
 			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.collectionVariables.set(\"authToken\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -49,7 +61,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"username\": \"vijay\",\n  \"password\": \"password123\"\n}"
+					"raw": "{\n  \"username\": \"frontend_user\",\n  \"password\": \"password123\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8081/api/auth/login",
@@ -66,6 +78,59 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get Profile (Example)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/api/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/auth/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"auth",
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "authToken",
+			"value": ""
 		}
 	]
 }
